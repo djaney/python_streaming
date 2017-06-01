@@ -1,4 +1,4 @@
-
+#!/usr/bin/python3
 import sys
 import subprocess
 import configparser
@@ -38,15 +38,15 @@ def main():
 
 def play(inp, opts):
     cmd = "ffplay -i %s %s %s"% (inp, opts, getFilters() )
-    subprocess.call( cmd )
+    subprocess.run( cmd.strip(), shell=True )
 
 def youtube(inp, secret, opts, outOpts):
     cmd = "ffmpeg -thread_queue_size 512 %s -probesize 8192 -i %s -c:v libx264 -b:v 1M -vf scale=-1:720 -r 25 -c:a aac -ar 44100 -b:a 128k -tune zerolatency -preset ultrafast -flags +global_header -f flv %s %s rtmp://a.rtmp.youtube.com/live2/%s"% (opts, inp, getFilters(),outOpts, secret);
-    subprocess.call( cmd )
+    subprocess.run( cmd.strip(), shell=True )
 
 def twitch(inp, secret, opts, outOpts):
     cmd = "ffmpeg -thread_queue_size 512 %s -probesize 8192 -i %s -c:v libx264 -b:v 1M -vf scale=-1:720 -r 25 -c:a aac -ar 44100 -b:a 128k -tune zerolatency -preset ultrafast -flags +global_header -f flv %s %s rtmp://%s/app/%s"% (opts, inp, getFilters(),outOpts, TWITCH_SERVER, secret);
-    subprocess.call( cmd )
+    subprocess.run( cmd.strip(), shell=True )
 
 def input (idx, default = None):
     try:
